@@ -1,0 +1,53 @@
+version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+  # reverse-proxy:
+  #     image: nginx:latest
+  #     container_name: reverse_proxy_demo
+  #     depends_on:
+  #         - py-webapp
+  #     volumes:
+  #       - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+  #     env_file:
+  #       - vars.env
+  #     ports:
+  #       - 80:80
+  py-webapp:
+      image: py-webapp
+      container_name: py-webapp
+      env_file:
+        - vars.env
+      build:
+        context: ./webapp
+      ports:
+        - "5000:5000"
+      depends_on:
+        - rabbitmq
+      restart: on-failure
+  websocket_server:
+      image: websocket_server
+      container_name: websocket_server
+      env_file:
+        - vars.env
+      build:
+        context: ./websocket_server
+      ports:
+        - "8080:8080"
+      depends_on:
+        - rabbitmq
+      restart: on-failure
+  fib:
+      image: fib
+      container_name: fib
+      env_file:
+        - vars.env
+      build:
+        context: ./fib_calc
+      depends_on:
+        - rabbitmq
+      restart: on-failure

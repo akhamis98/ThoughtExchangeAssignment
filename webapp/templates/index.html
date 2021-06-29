@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Webpage</title>
+</head>
+<body>
+    <div class="container">
+        
+        <form action="/fib" method = "POST">
+            <p>fib <input type = "text" name = "fib_n" /></p>
+            <p><input type = "submit" value = "submit" /></p>
+        </form>
+        <p id="fib_val"></p>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js"></script>
+        <script>
+        const socket = io("http://localhost:8080");
+        console.log("socket connected");
+        socket.emit("message", "HELLO WORLD");
+        socket.on("message", function(data) {
+            console.log(data);
+            document.getElementById("fib_val").innerHTML = data;
+        });
+        </script>
+     </div>
+</body>
+</html>

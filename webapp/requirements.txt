@@ -1,0 +1,14 @@
+# This file is used by pip to install required python packages
+# Usage: pip install -r requirements.txt
+
+# Flask Framework
+Flask==1.1.2
+
+#messaging
+pika==1.1.0
+
+#socketIO
+#the flask-socketio import actually handles compatabilities for us
+# as opposed to importing python-socketio and engineio of diff version
+eventlet==0.31.0
+Flask-SocketIO==4.3.2
